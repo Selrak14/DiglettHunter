@@ -1,4 +1,5 @@
 Library/ArtifactDB
+Library/Artifacts
 Library/CurrentLayout-default.dwlt
 Library/InspectorExpandedItems.asset
 Library/LastSceneManagerSetup.txt
@@ -9,6 +10,7 @@ Library/SourceAssetDB
 Library/StateCache/SceneView/8c/8cd7c613bf844de3b80696e27a479d5e.json
 Logs/AssetImportWorker0-prev.log
 Logs/AssetImportWorker0.log
+Logs/shadercompiler-UnityShaderCompiler.exe0.log
 Logs/shadercompiler-UnityShaderCompiler.exe1.log
 Logs/shadercompiler-UnityShaderCompiler.exe2.log
 Logs/shadercompiler-UnityShaderCompiler.exe3.log
