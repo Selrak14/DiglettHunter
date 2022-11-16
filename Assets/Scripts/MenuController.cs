@@ -17,7 +17,8 @@ public class MenuController : MonoBehaviour
 
     private void Start()
     {
-
+        currentScene = SceneManager.GetActiveScene().buildIndex;
+        if (currentScene == 2)
             camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
     }
 
