@@ -12,6 +12,13 @@ public class CameraMovement : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    public void StartLevel()
+    {
+
+        Debug.Log("StartingLevel");
+        animator.SetTrigger("startLevel");
+    }
+
     public void ShowShopAnim()
     {
 
