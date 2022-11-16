@@ -1420,6 +1420,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: {fileID: 366461794}
+  Subida: {fileID: 2066120948}
+  WaitingABit: 1
 --- !u!1 &1812440951
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,7 +1530,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -66.99994, y: 0}
+  m_AnchoredPosition: {x: -9, y: 1028}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &2066120948

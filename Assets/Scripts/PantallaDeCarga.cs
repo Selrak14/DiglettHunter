@@ -8,6 +8,7 @@ public class PantallaDeCarga : MonoBehaviour
     public float transitionTime = 1f;
     public Animator transition;
     private int actualScene;
+    public AudioSource CamionCrash;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,15 @@ public class PantallaDeCarga : MonoBehaviour
         } 
     }
 
-    
+    public void PlayCamion(AudioSource Camion)
+    {
+        Camion.Play();
+    }
+    public void PlayCamionCrash(AudioSource Audio)
+    {
+        Audio.Play();
+    }
+
     public void LoadNextLevel()
     {
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex+1));
@@ -36,12 +45,12 @@ public class PantallaDeCarga : MonoBehaviour
 
     IEnumerator LoadLevel(int levelIndex)
     {
-
+        
         // transition
         transition.SetTrigger("Start");
 
         // WAIT
-        yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSeconds(.1f);
 
         SceneManager.LoadScene(levelIndex);
 
@@ -50,11 +59,18 @@ public class PantallaDeCarga : MonoBehaviour
     IEnumerator PasarASiguientePantalla()
     {
         Debug.Log("NO SE ACTIVA EL DESNEGRO");
-        //yield on a new YieldInstruction that waits for 5 seconds.
+        
+        // IMAGEN DEL CAMION 
         yield return new WaitForSeconds(5f);
+        // FUNDIODO A NEGRO
         transition.SetTrigger("Start");
 
-        yield return new WaitForSeconds(6f);
+        // CUANDO NEGRO CRASH
+        yield return new WaitForSeconds(2.5f);
+        PlayCamionCrash(CamionCrash);
+
+        // CARGAR NUEVO MUNDO
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("LoggIn");
     }
 }

@@ -11,17 +11,24 @@ public class ClassicGameMode : MonoBehaviour
     TheGame playerInstance;
     public GameObject MenuDePausa;
     public GameObject MenuDeFin;
-    // public float TiempoEsperaInicio = 6f;
     public int PuntuacionPartida = 0;
-    public List<Vector2> listOfPosition = new List<Vector2>();
-    public float TimeBeteenSpawn = .5f;
-    public float Timer = 3f;
-    public GameObject DiglettBase;
-    public bool RandomPosition;
     [SerializeField] private TextMeshProUGUI TextoPuntuacion;
+    [SerializeField] private TextMeshProUGUI TiempoDePartidaTexto;
+    Timer TimerInstance;
+    private GameObject DebugObject;
+
+    //Digletts
+    public bool RandomPosition;
+    public List<Vector2> listOfPosition = new List<Vector2>();
+    public GameObject DiglettBase;
+    public float TimeBeteenSpawn = .5f;
+
+    // ControlDelTiempo
+    public float TiempoEsperaInicio = 6f;
+    public float Timer = 3f;
     public float TiempoDeLaPartida = 30f;
     public bool TiempoDePartidaReverso = true;
-    
+    private float TiempoTranscurrido = 0;
 
     
 
@@ -34,11 +41,28 @@ public class ClassicGameMode : MonoBehaviour
 
     void Start()
     {
+        if(GameObject.FindGameObjectsWithTag("GameController").Length == 0)
+        {
+            Debug.Log("NO HAY THE GAME");
+            // someObject doesn't exist
+            DebugObject = new GameObject("Cool GameObject made from Code");
+            DebugObject.AddComponent<TheGame>();
+            playerInstance = DebugObject.GetComponent<TheGame>();
+        }
+        else
+        {
+            Debug.Log("REUTILIZAR THE GAME");
+            playerInstance = GameObject.FindGameObjectWithTag("GameController").GetComponent<TheGame>();
+        }
+
         paused = false;
-        Debug.Log("Escena creada");
-        playerInstance = GameObject.FindGameObjectWithTag("GameController").GetComponent<TheGame>();
+        // playerInstance = GameObject.FindGameObjectWithTag("GameController").GetComponent<TheGame>();
+        TimerInstance = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>();
+        
+        TiempoTranscurrido = 0f;
         MenuDePausa.SetActive(paused);
-        StartCoroutine(FinalizarPartidaPorTiempo(TiempoDeLaPartida+Timer));
+        // StartCoroutine(FinalizarPartidaPorTiempo(TiempoDeLaPartida+Timer));
+
 
     }
     
@@ -135,22 +159,42 @@ public class ClassicGameMode : MonoBehaviour
     {
         Debug.Log("JUEGO TERMINADO");
         paused=!paused;
-        MenuDeFin.SetActive(paused);
+        MenuDeFin.SetActive(true);
+        Debug.Log("JUEGO EN PAUSA");
         
     }
 
-    IEnumerator FinalizarPartidaPorTiempo(float tiempo)
+    // IEnumerator FinalizarPartidaPorTiempo(float tiempo)
+    // {
+    //     //Print the time of when the function is first called.
+    //     Debug.Log("Started Coroutine at timestamp : " + Time.time);
+
+    //     //yield on a new YieldInstruction that waits for 5 seconds.
+    //     yield return new WaitForSeconds(tiempo);
+
+    //     //After we have waited 5 seconds print the time again.
+    //     Debug.Log("Finished Coroutine at timestamp : " + Time.time);
+    //     JuegoTerminado();
+    // }
+
+    void OnGUI()
     {
-        //Print the time of when the function is first called.
-        Debug.Log("Started Coroutine at timestamp : " + Time.time);
-
-        //yield on a new YieldInstruction that waits for 5 seconds.
-        yield return new WaitForSeconds(tiempo);
-
-        //After we have waited 5 seconds print the time again.
-        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
-        JuegoTerminado();
+        TiempoTranscurrido +=Time.deltaTime;
+        Debug.Log("TiempoTranscurrido: "+Time.time);
+        if(Time.time > TiempoDeLaPartida+TiempoEsperaInicio)
+        {
+            JuegoTerminado();
+        }
+        else
+        {
+            if (Time.time < TiempoEsperaInicio+.1f)
+            {
+                TimerInstance.ModificarTexto(Time.time, TiempoEsperaInicio);
+            }
+            
+        }
     }
+
 
     // Update is called once per frame
     void Update()

@@ -19,6 +19,7 @@ public class TheGame : MonoBehaviour
 
     public void SetName(string name)
     {
+        Debug.Log("SET  NAME TO: "+name);
         PlayerPrefs.SetString("username", name); // 4
         PlayerPrefs.Save(); // 5
     }
