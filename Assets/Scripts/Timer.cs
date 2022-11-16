@@ -13,24 +13,20 @@ public class Timer : MonoBehaviour
 
     }
 
-    // public void ModificarTexto(float timerValue)
-    // {
-
-    //     float minutes = Mathf.Floor(timerValue / 60);
-    //     float seconds = timerValue%60;
-
-    //     TimerText.SetText(minutes+":"+Mathf.RoundToInt(seconds));
-    // }
-
     public void ModificarTexto(float timerValue, float TiempoDeEspera)
     {
-
-
-        TimerText.SetText(""+Mathf.RoundToInt(TiempoDeEspera-timerValue));
-        if(TiempoDeEspera-timerValue <= 0)
+        
+        if(timerValue <= TiempoDeEspera)
         {
-            Destroy(gameObject);
+            TimerText.SetText(""+Mathf.Ceil(TiempoDeEspera-timerValue));
         }
+        else {DestruirTiempoDeEspera();}
+    }
+
+    public void DestruirTiempoDeEspera()
+    {
+        Debug.Log("DESTRUIR TIEMPODECARGA");
+        Destroy(gameObject);
     }
 
 }
