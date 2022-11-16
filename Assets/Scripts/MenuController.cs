@@ -11,12 +11,14 @@ public class MenuController : MonoBehaviour
     public GameObject ShopMenu;
     public GameObject LevelsMenu;
 
+    private int currentScene;
     CameraMovement camera;
 
 
     private void Start()
     {
-        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
+
+            camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMovement>();
     }
 
 
@@ -24,7 +26,6 @@ public class MenuController : MonoBehaviour
     public void ExitGame(string level)
     {
         Debug.Log("Nivel al que moverse: "+level);
-        camera.StartLevel();
         SceneManager.LoadScene(level);
     }
 
