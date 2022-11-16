@@ -144,8 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1686cd702c70ed842bf3d236ce3acd52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floater: 2
-  TextoPuntuacion: {fileID: 4427862826897172476}
+  TimerText: {fileID: 4427862826897172476}
 --- !u!1 &8634938514100763204
 GameObject:
   m_ObjectHideFlags: 0
