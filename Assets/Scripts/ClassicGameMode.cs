@@ -24,11 +24,13 @@ public class ClassicGameMode : MonoBehaviour
     public float TimeBeteenSpawn = .5f;
 
     // ControlDelTiempo
+    float TiempoRealDeInicioDelClassicGameMode;
     public float TiempoEsperaInicio = 6f;
     public float Timer = 3f;
     public float TiempoDeLaPartida = 30f;
     public bool TiempoDePartidaReverso = true;
-    private float TiempoTranscurrido = 0;
+    float TimeNormalizado;
+    
 
     
 
@@ -58,7 +60,7 @@ public class ClassicGameMode : MonoBehaviour
         paused = false;
         // playerInstance = GameObject.FindGameObjectWithTag("GameController").GetComponent<TheGame>();
         TimerInstance = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>();
-        TiempoTranscurrido = 0f;
+        TiempoRealDeInicioDelClassicGameMode = Time.time;
         StartInGameTime();
         MenuDePausa.SetActive(paused);
         // StartCoroutine(FinalizarPartidaPorTiempo(TiempoDeLaPartida+Timer));
@@ -157,15 +159,15 @@ public class ClassicGameMode : MonoBehaviour
             TiempoDePartidaTexto.SetText("0");
         }
     }
-    private void SetInGameTime()
+    private void SetInGameTime(float tiempo)
     {
         if(TiempoDePartidaReverso)
         {
-            TiempoDePartidaTexto.SetText(""+Mathf.Ceil((TiempoDeLaPartida + TiempoEsperaInicio)-Time.time));
+            TiempoDePartidaTexto.SetText(""+Mathf.Ceil((TiempoDeLaPartida + TiempoEsperaInicio)-tiempo));
         }
         else
         {
-            TiempoDePartidaTexto.SetText(""+Mathf.Ceil(Time.time));
+            TiempoDePartidaTexto.SetText(""+Mathf.Ceil(tiempo));
         }
         
     }
@@ -201,21 +203,22 @@ public class ClassicGameMode : MonoBehaviour
 
     void OnGUI()
     {
-        TiempoTranscurrido +=Time.deltaTime;
-        Debug.Log("TiempoTranscurrido: "+Time.time);
-        if(Time.time >= TiempoDeLaPartida+TiempoEsperaInicio)
+        TimeNormalizado = Time.time - TiempoRealDeInicioDelClassicGameMode;
+        
+        Debug.Log("TiempoTranscurrido: "+TimeNormalizado);
+        if(TimeNormalizado >= TiempoDeLaPartida+TiempoEsperaInicio)
         {
             JuegoTerminado();
         }
 
-        if(Time.time >= TiempoEsperaInicio & Time.time <= TiempoEsperaInicio+TiempoDeLaPartida)
+        if(TimeNormalizado >= TiempoEsperaInicio & TimeNormalizado <= TiempoEsperaInicio+TiempoDeLaPartida)
         {
-            SetInGameTime();
+            SetInGameTime(TimeNormalizado);
         }
 
         if (TimerInstance != null )
         {
-            TimerInstance.ModificarTexto(Time.time, TiempoEsperaInicio);
+            TimerInstance.ModificarTexto(TimeNormalizado, TiempoEsperaInicio);
         }
 
         
