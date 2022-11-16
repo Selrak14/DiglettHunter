@@ -58,8 +58,8 @@ public class ClassicGameMode : MonoBehaviour
         paused = false;
         // playerInstance = GameObject.FindGameObjectWithTag("GameController").GetComponent<TheGame>();
         TimerInstance = GameObject.FindGameObjectWithTag("Timer").GetComponent<Timer>();
-        
         TiempoTranscurrido = 0f;
+        StartInGameTime();
         MenuDePausa.SetActive(paused);
         // StartCoroutine(FinalizarPartidaPorTiempo(TiempoDeLaPartida+Timer));
 
@@ -146,7 +146,29 @@ public class ClassicGameMode : MonoBehaviour
 
     // UI
 
-
+    void StartInGameTime()
+    {
+        if(TiempoDePartidaReverso)
+        {
+            TiempoDePartidaTexto.SetText(""+Mathf.Ceil(TiempoDeLaPartida));
+        }
+        else
+        {
+            TiempoDePartidaTexto.SetText("0");
+        }
+    }
+    private void SetInGameTime()
+    {
+        if(TiempoDePartidaReverso)
+        {
+            TiempoDePartidaTexto.SetText(""+Mathf.Ceil((TiempoDeLaPartida + TiempoEsperaInicio)-Time.time));
+        }
+        else
+        {
+            TiempoDePartidaTexto.SetText(""+Mathf.Ceil(Time.time));
+        }
+        
+    }
 
     // ALTERACIONES DEL JUEGO
     private void JuegoPausado()
@@ -158,7 +180,7 @@ public class ClassicGameMode : MonoBehaviour
     private void JuegoTerminado()
     {
         Debug.Log("JUEGO TERMINADO");
-        paused=!paused;
+        paused=true;
         MenuDeFin.SetActive(true);
         Debug.Log("JUEGO EN PAUSA");
         
@@ -181,18 +203,22 @@ public class ClassicGameMode : MonoBehaviour
     {
         TiempoTranscurrido +=Time.deltaTime;
         Debug.Log("TiempoTranscurrido: "+Time.time);
-        if(Time.time > TiempoDeLaPartida+TiempoEsperaInicio)
+        if(Time.time >= TiempoDeLaPartida+TiempoEsperaInicio)
         {
             JuegoTerminado();
         }
-        else
+
+        if(Time.time >= TiempoEsperaInicio & Time.time <= TiempoEsperaInicio+TiempoDeLaPartida)
         {
-            if (Time.time < TiempoEsperaInicio+.1f)
-            {
-                TimerInstance.ModificarTexto(Time.time, TiempoEsperaInicio);
-            }
-            
+            SetInGameTime();
         }
+
+        if (TimerInstance != null )
+        {
+            TimerInstance.ModificarTexto(Time.time, TiempoEsperaInicio);
+        }
+
+        
     }
 
 
