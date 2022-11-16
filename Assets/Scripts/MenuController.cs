@@ -24,12 +24,14 @@ public class MenuController : MonoBehaviour
     public void ExitGame(string level)
     {
         Debug.Log("Nivel al que moverse: "+level);
+        camera.StartLevel();
         SceneManager.LoadScene(level);
     }
 
     public void LoadGame(string level)
     {
         Debug.Log("Nivel al que moverse: "+level);
+        camera.StartLevel();
         SceneManager.LoadScene(level);
     }
 
